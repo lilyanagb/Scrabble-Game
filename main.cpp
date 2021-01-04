@@ -2,6 +2,25 @@
 #include <fstream>
 using namespace std;
 
+int length(char arr[]) {
+    int i = 0;
+    for (; arr[i] != '\0'; ++i) {}
+    return i;
+}
+
+void clearScreen() {
+    for (int i = 0; i < 40; i++) {
+        cout << endl;
+    }
+}
+
+void pressEnter() {
+    cout << endl;
+    cout << "Let's start! Press Enter to open the menu.";
+    cin.get();
+    clearScreen();
+}
+
 void displayInstructions() {
     char myInstructions[150];
     ifstream readToFile;
@@ -59,6 +78,7 @@ void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
 }
 int main() {
     displayInstructions();
+    pressEnter();
     int numberForOption, letters = 10, rounds = 10;
     do {
         menu();
