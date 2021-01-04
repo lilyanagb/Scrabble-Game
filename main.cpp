@@ -71,6 +71,38 @@ void randomGet(int number, char randomLetters[]) {
     randomLetters[i]='\0';
 }
 
+bool findWord(char userWord[], char myDictionary[]) {
+    ifstream readToFile;
+    readToFile.open("dictionary.txt");
+    if (!readToFile.is_open()) {
+        cout << "cannot be opened";
+        return false;
+    }
+
+    int lengthUserWord = length(userWord);
+    int lengthDictionaryWord;
+    int similarLetters = 0;
+    while (readToFile.good()) {
+        readToFile >> myDictionary;
+        lengthDictionaryWord = length(myDictionary);
+        if (lengthUserWord == lengthDictionaryWord) {
+            for (int i = 0; i < lengthUserWord; i++) {
+                if (userWord[i] == myDictionary[i]) {
+                    similarLetters++;
+                } else {
+                    break;
+                }
+            }
+        }
+        if (similarLetters == lengthUserWord) {
+            readToFile.close();
+            return true;
+        }
+    }
+    readToFile.close();
+    return false;
+}
+
 void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
     int numberForSettings;
 
