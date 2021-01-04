@@ -18,7 +18,17 @@ void displayInstructions() {
     readToFile.close();
 }
 
+void menu() {
+    cout << "To select a menu option, type the corresponding number." << endl;
+    cout << "Menu:" << endl;
+    cout << "1 -> Start a game" << endl;
+    cout << "2 -> Settings" << endl;
+    cout << "3 -> Add a new word" << endl;
+    cout << "4 -> Exit" << endl;
+}
+
 int main() {
-    displayInstructions();
+    //displayInstructions();
+    menu();
     return 0;
 }
