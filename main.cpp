@@ -27,8 +27,44 @@ void menu() {
     cout << "4 -> Exit" << endl;
 }
 
+void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
+    int numberForSettings;
+
+    if (numberForOption == 1) {
+
+    }
+    if (numberForOption == 2) {
+        cout << "1 -> Change the number of submitted letters" << endl;
+        cout << "2 -> Change the number of rounds" << endl;
+        cin >> numberForSettings;
+
+        if (numberForSettings == 1) {
+            cout << "Enter the number of letters: ";
+            cin >> letters;
+        } else if (numberForSettings == 2) {
+            cout <<"Enter the number of rounds: ";
+            cin >> rounds;
+        }
+    }
+    if (numberForOption == 3) {
+        char newWord[100];
+        ofstream writeToFile;
+        writeToFile.open("dictionary.txt", ios_base::app);
+        cout << "Enter a new word: ";
+        cin.get();
+        cin.getline(newWord, 100);
+        writeToFile << endl << newWord;
+        writeToFile.close();
+    }
+}
 int main() {
-    //displayInstructions();
-    menu();
+    displayInstructions();
+    int numberForOption, letters = 10, rounds = 10;
+    do {
+        menu();
+        cin >> numberForOption;
+        enteredOptionMenu(numberForOption, letters, rounds);
+    } while (numberForOption != 4);
+
     return 0;
 }
