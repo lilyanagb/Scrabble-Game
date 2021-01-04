@@ -47,6 +47,15 @@ void menu() {
     cout << "4 -> Exit" << endl;
 }
 
+int points(char userWord[]) {
+    int lengthWord = length(userWord);
+    int points = 0;
+    for (int i = 0; i < lengthWord; i++) {
+        points++;
+    }
+    return points;
+}
+
 void randomGet(int number, char randomLetters[]) {
     char alphabets[26] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
                           't', 'u', 'v', 'w', 'x', 'y', 'z'};
