@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <ctime>
 using namespace std;
 
 int length(char arr[]) {
@@ -44,6 +45,21 @@ void menu() {
     cout << "2 -> Settings" << endl;
     cout << "3 -> Add a new word" << endl;
     cout << "4 -> Exit" << endl;
+}
+
+void randomGet(int number, char randomLetters[]) {
+    char alphabets[26] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+                          't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+    srand(time(nullptr));
+
+    int i = 0;
+    while (i < number) {
+        int temp = rand() % 26;
+        randomLetters[i] = alphabets[temp];
+        i++;
+    }
+    randomLetters[i]='\0';
 }
 
 void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
