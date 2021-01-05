@@ -60,6 +60,14 @@ bool checkForVowel(int number, char randomLetters[]){
     return false;
 }
 
+void copyArray(char arr[],char newArr[]){
+    int lengthArr=length(arr);
+    for(int i=0;i<lengthArr ;i++){
+        newArr[i]=arr[i];
+    }
+    newArr[lengthArr]='\0';
+}
+
 int points(char userWord[]) {
     int lengthWord = length(userWord);
     int points = 0;
@@ -141,14 +149,18 @@ bool findWord(char userWord[]) {
 }
 
 bool validateUserWord(char arrFromUser[], char lettersFromComputer[]) {
-    sortWord(arrFromUser);
-    sortWord(lettersFromComputer);
+    char tempUser[101];
+    char tempComputer[101];
+    copyArray(arrFromUser,tempUser);
+    copyArray(lettersFromComputer,tempComputer);
+    sortWord(tempUser);
+    sortWord(tempComputer);
     int userWordLength= length(arrFromUser);
     int counter=0;
 
     for(int i=0;i<userWordLength;i++){
-        if (arrFromUser[i] == lettersFromComputer[i]) {
-            arrFromUser[i] = '1';
+        if (tempUser[i] == tempComputer[i]) {
+            tempUser[i] = '1';
             counter++;
         }
     }
