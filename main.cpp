@@ -91,6 +91,21 @@ void getRandomLetters(int number,char array[]){
     }
 }
 
+void sortWord(char arr[]) {
+    int n = length(arr);
+    char swapElement;
+    for (int i = 0; n > i; i++) {
+        for (int j = n - 1; j > i; j--) {
+            if (arr[j - 1] > arr[j])
+            {
+                swapElement = arr[j - 1];
+                arr[j - 1] = arr[j];
+                arr[j] = swapElement;
+            }
+        }
+    }
+}
+
 bool findWord(char userWord[], char myDictionary[]) {
     ifstream readToFile;
     readToFile.open("dictionary.txt");
