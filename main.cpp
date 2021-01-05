@@ -84,6 +84,13 @@ void randomGet(int number, char randomLetters[]) {
     randomLetters[i]='\0';
 }
 
+void getRandomLetters(int number,char array[]){
+    randomGet(number,array);
+    while(!checkForVowel(number,array)) {
+        randomGet(number, array);
+    }
+}
+
 bool findWord(char userWord[], char myDictionary[]) {
     ifstream readToFile;
     readToFile.open("dictionary.txt");
