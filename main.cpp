@@ -179,11 +179,40 @@ bool validateUserWord(char arrFromUser[], char lettersFromComputer[]) {
     return true;
 }
 
+int playGame(int letters,int rounds){
+    char randomLetters[101];
+    char userWord[101];
+    int sumOfPoints=0;
+
+    for(int i=1;i<=rounds;i++) {
+        cout << "<< Round " << i << "." << "Available letters: ";
+        getRandomLetters(letters, randomLetters);
+        cout << randomLetters << endl;
+        cout << ">> Try with: ";
+        cin >> userWord;
+        while (!(validateUserWord(userWord, randomLetters) && findWord(userWord))) {
+            cout << ">> Try again with another word or type 0 for new letters: ";
+            cin >> userWord;
+            if (userWord[0] == '0') {
+                cout << "<< Round " << i << "." << "New available letters: ";
+                getRandomLetters(letters, randomLetters);
+                cout << randomLetters << endl;
+            }
+            cout << endl;
+        }
+        sumOfPoints += points(userWord);
+        cout << "<< Your points so far are: " << sumOfPoints << endl;
+    }
+    return sumOfPoints;
+}
+
 void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
     int numberForSettings;
 
     if (numberForOption == 1) {
-
+        int points;
+        points=playGame(letters,rounds);
+        cout<<"Your total points are: "<<points<<endl;
     }
     if (numberForOption == 2) {
         cout << "1 -> Change the number of submitted letters" << endl;
