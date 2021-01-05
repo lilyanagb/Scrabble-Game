@@ -139,6 +139,24 @@ bool findWord(char userWord[]) {
     return false;
 }
 
+bool validateUserWord(char arrFromUser[], char lettersFromComputer[]) {
+    sortWord(arrFromUser);
+    sortWord(lettersFromComputer);
+    int userWordLength= length(arrFromUser);
+    int counter=0;
+
+    for(int i=0;i<userWordLength;i++){
+        if (arrFromUser[i] == lettersFromComputer[i]) {
+            arrFromUser[i] = '1';
+            counter++;
+        }
+    }
+    if(counter==userWordLength){
+        return true;
+    }
+    return false;
+}
+
 void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
     int numberForSettings;
 
