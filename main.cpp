@@ -151,23 +151,32 @@ bool findWord(char userWord[]) {
 bool validateUserWord(char arrFromUser[], char lettersFromComputer[]) {
     char tempUser[101];
     char tempComputer[101];
+    int computerLength= length(lettersFromComputer);
+    int userLength= length(arrFromUser);
+
+    if(userLength>computerLength){
+        return false;
+    }
+
     copyArray(arrFromUser,tempUser);
     copyArray(lettersFromComputer,tempComputer);
     sortWord(tempUser);
     sortWord(tempComputer);
-    int userWordLength= length(arrFromUser);
-    int counter=0;
 
-    for(int i=0;i<userWordLength;i++){
-        if (tempUser[i] == tempComputer[i]) {
-            tempUser[i] = '1';
-            counter++;
+    for(int i=0;i<computerLength;i++) {
+        for (int j = 0; j < userLength; j++) {
+            if (tempUser[j] == tempComputer[i]) {
+                tempUser[j] = '1';
+                break;
+            }
         }
     }
-    if(counter==userWordLength){
-        return true;
+    for (int i = 0; i < userLength; i++) {
+        if(tempUser[i] != '1'){
+            return false;
+        }
     }
-    return false;
+    return true;
 }
 
 void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
