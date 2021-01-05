@@ -106,7 +106,8 @@ void sortWord(char arr[]) {
     }
 }
 
-bool findWord(char userWord[], char myDictionary[]) {
+bool findWord(char userWord[]) {
+    char myDictionary[101];
     ifstream readToFile;
     readToFile.open("dictionary.txt");
     if (!readToFile.is_open()) {
