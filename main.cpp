@@ -126,6 +126,7 @@ bool findWord(char userWord[]) {
                 if (userWord[i] == myDictionary[i]) {
                     similarLetters++;
                 } else {
+                    similarLetters=0;
                     break;
                 }
             }
