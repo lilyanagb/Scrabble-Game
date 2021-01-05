@@ -47,6 +47,19 @@ void menu() {
     cout << "4 -> Exit" << endl;
 }
 
+bool checkForVowel(int number, char randomLetters[]){
+    for(int i=0;i<number;i++){
+        if(randomLetters[i]=='a' || randomLetters[i]=='e'){
+            return true;
+        }else if(randomLetters[i]=='i' || randomLetters[i]=='o'){
+            return true;
+        }else if(randomLetters[i]=='u'){
+            return true;
+        }
+    }
+    return false;
+}
+
 int points(char userWord[]) {
     int lengthWord = length(userWord);
     int points = 0;
