@@ -177,6 +177,31 @@ bool validateUserWord(char arrFromUser[], char lettersFromComputer[]) {
     return true;
 }
 
+bool correctNewWord(char newWord[]){
+    char dictionary[150];
+    ifstream readToFile;
+    readToFile.open("dictionary1.txt");
+    if (!readToFile.is_open()) {
+        cout << "cannot be opened";
+        return false;
+    }
+    int lengthNewWord=length(newWord);
+    int counter=0;
+    while (readToFile.good()) {
+        readToFile.getline(dictionary, 150);
+        for(int i=0;i<lengthNewWord;i++){
+            if(newWord[i]==dictionary[i]){
+                counter++;
+            }
+        }
+        if(counter==lengthNewWord){
+            return true;
+        }
+    }
+    return false;
+    readToFile.close();
+}
+
 int playGame(int letters,int rounds){
     char randomLetters[101];
     char userWord[101];
@@ -235,10 +260,15 @@ void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
         cout << "Enter a new word: ";
         cin.get();
         cin.getline(newWord, 100);
-        writeToFile << endl << newWord;
+        if(correctNewWord(newWord)){
+            writeToFile << endl << newWord;
+        }else{
+            cout<<"The word doesn't exist"<<endl;
+        }
         writeToFile.close();
     }
 }
+
 int main() {
     displayInstructions();
     cout << endl;
