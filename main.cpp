@@ -208,6 +208,7 @@ int playGame(int letters,int rounds){
     int sumOfPoints=0;
 
     for(int i=1;i<=rounds;i++) {
+        int counter=0;
         cout << "<< Round " << i << "." << "Available letters: ";
         getRandomLetters(letters, randomLetters);
         cout << randomLetters << endl;
@@ -216,16 +217,28 @@ int playGame(int letters,int rounds){
         while (!(validateUserWord(userWord, randomLetters) && findWord(userWord))) {
             cout << ">> Try again with another word or type 0 for new letters: ";
             cin >> userWord;
+            cout<<endl;
             if (userWord[0] == '0') {
-                cout << "<< Round " << i << "." << "New available letters: ";
-                getRandomLetters(letters, randomLetters);
-                cout << randomLetters << endl;
+                counter++;
+                if(counter<=3 && counter>0) {
+                    cout<<3-counter<<" letter changes left."<<endl;
+
+                    cout << "New available letters: ";
+                    getRandomLetters(letters, randomLetters);
+                    cout << randomLetters << endl;
+                }
+                if(counter>3){
+                    break;
+                }
             }
-            cout << endl;
         }
-        sumOfPoints += points(userWord);
+        roundPoints=points(userWord);
+        sumOfPoints += roundPoints;
+
+        cout<<"<< In this round you received: "<<points(userWord)<<" points";
+        cin.get();
         pressEnter();
-        cout << "<< Your points so far are: " << sumOfPoints << endl;
+        cout <<"<< Your points so far are: "<< sumOfPoints << endl;
     }
     return sumOfPoints;
 }
