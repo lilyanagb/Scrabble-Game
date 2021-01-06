@@ -16,8 +16,6 @@ void clearScreen() {
 }
 
 void pressEnter() {
-    cout << endl;
-    cout << "Let's start! Press Enter to open the menu.";
     cin.get();
     clearScreen();
 }
@@ -201,6 +199,7 @@ int playGame(int letters,int rounds){
             cout << endl;
         }
         sumOfPoints += points(userWord);
+        pressEnter();
         cout << "<< Your points so far are: " << sumOfPoints << endl;
     }
     return sumOfPoints;
@@ -212,7 +211,9 @@ void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
     if (numberForOption == 1) {
         int points;
         points=playGame(letters,rounds);
-        cout<<"Your total points are: "<<points<<endl;
+        cout<<endl;
+        cout<<"Well done! Your total points are: "<<points<<endl;
+        pressEnter();
     }
     if (numberForOption == 2) {
         cout << "1 -> Change the number of submitted letters" << endl;
@@ -240,6 +241,8 @@ void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
 }
 int main() {
     displayInstructions();
+    cout << endl;
+    cout << "Let's start! Press Enter to open the menu.";
     pressEnter();
     int numberForOption, letters = 10, rounds = 10;
     do {
