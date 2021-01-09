@@ -21,7 +21,7 @@ void clearScreen() {
 }
 
 void pressEnter() {
-    cout<<"Press Enter to continue.";
+    cout<<">>Press Enter to continue.";
     cin.get();
     clearScreen();
 }
@@ -43,7 +43,7 @@ void displayInstructions() {
 }
 
 void menu() {
-    cout << "To select a menu option, type the corresponding number." << endl;
+    cout << ">>To select a menu option, type the corresponding number.<<" << endl;
     cout << "Menu:" << endl;
     cout << "1 -> Start a game" << endl;
     cout << "2 -> Settings" << endl;
@@ -215,9 +215,9 @@ bool correctNewWord(char newWord[]) {
 void displayChangedLetters(int &counter, int letters, char randomLetters[]) {
     counter++;
     cout<<endl;
-    cout << MAX_TRIES - counter << " letter changes left." << endl;
+    cout << ">>"<<MAX_TRIES - counter << " letter changes left." << endl;
     cout << endl;
-    cout << "New available letters: ";
+    cout << ">>New available letters: ";
     getRandomLetters(letters, randomLetters);
     cout << randomLetters << endl;
 }
@@ -269,7 +269,7 @@ void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
         int points;
         points = playGame(letters, rounds);
         cout << endl;
-        cout << "Well done! Your total points are: " << points << endl;
+        cout << ">>Well done! Your total points are: " << points << endl;
         pressEnter();
     }
     if (numberForOption == 2) {
@@ -279,10 +279,10 @@ void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
         cin >> numberForSettings;
 
         if (numberForSettings == 1) {
-            cout << "Enter the number of letters: ";
+            cout << ">>Enter the number of letters: ";
             cin >> letters;
         } else if (numberForSettings == 2) {
-            cout << "Enter the number of rounds: ";
+            cout << ">>Enter the number of rounds: ";
             cin >> rounds;
         }else if(numberForSettings==3){
             clearScreen();
@@ -293,7 +293,7 @@ void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
         char newWord[MAX_LINE_LENGTH + 1];
         ofstream writeToFile;
         writeToFile.open("dictionary.txt", ios_base::app);
-        cout << "Enter a new word or type 0 to return to the menu: ";
+        cout << ">>Enter a new word or type 0 to return to the menu: ";
         cin.get();
         cin.getline(newWord, MAX_LINE_LENGTH);
         if(newWord[0]=='0'){
@@ -302,8 +302,10 @@ void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
         }
         if (correctNewWord(newWord)) {
             writeToFile << endl << newWord;
+            cout<<">>Your word is added successfully."
         } else {
-            cout << "The word doesn't exist" << endl;
+            cout<<endl;
+            cout << ">>The word doesn't exist." << endl;
         }
         writeToFile.close();
     }
