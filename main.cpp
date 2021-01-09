@@ -7,6 +7,8 @@ using namespace std;
 #define NEWLINE_COUNT 40
 #define MAX_INSTRUCTION_LEN 150
 #define MAX_TRIES 3
+#define DEFAULT_ROUNDS 10
+#define DEFAULT_LETTERS 10
 
 int length(char arr[]) {
     int i = 0;
@@ -21,7 +23,7 @@ void clearScreen() {
 }
 
 void pressEnter() {
-    cout<<">> Press Enter to continue";
+    cout << ">> Press Enter to continue";
     cin.get();
     clearScreen();
 }
@@ -30,6 +32,7 @@ void displayInstructions() {
     char myInstructions[MAX_INSTRUCTION_LEN];
     ifstream readToFile;
     readToFile.open("instructions.txt");
+
     if (!readToFile.is_open()) {
         cout << "cannot be opened";
         return;
@@ -43,7 +46,7 @@ void displayInstructions() {
 }
 
 void menu() {
-    cout<<endl;
+    cout << endl;
     cout << ">>To select a menu option, type the corresponding number<<" << endl;
     cout << "Menu:" << endl;
     cout << "1 -> Start a game" << endl;
@@ -102,6 +105,7 @@ void randomGet(int number, char randomLetters[]) {
     randomLetters[i] = '\0';
 }
 
+//the random get function is called until there is at least one vowel in the random letters
 void getRandomLetters(int number, char array[]) {
     randomGet(number, array);
     while (!checkForVowel(number, array)) {
@@ -112,6 +116,7 @@ void getRandomLetters(int number, char array[]) {
 void sortWord(char arr[]) {
     int n = length(arr);
     char swapElement;
+
     for (int i = 0; n > i; i++) {
         for (int j = n - 1; j > i; j--) {
             if (arr[j - 1] > arr[j]) {
@@ -127,6 +132,7 @@ bool findWord(char userWord[]) {
     char myDictionary[MAX_LINE_LENGTH + 1];
     ifstream readToFile;
     readToFile.open("dictionary.txt");
+
     if (!readToFile.is_open()) {
         cout << "cannot be opened";
         return false;
@@ -134,21 +140,24 @@ bool findWord(char userWord[]) {
 
     int lengthUserWord = length(userWord);
     int lengthDictionaryWord;
-    int similarLetters = 0;
+    int sameLetters = 0;
+
     while (readToFile.good()) {
         readToFile >> myDictionary;
         lengthDictionaryWord = length(myDictionary);
+
         if (lengthUserWord == lengthDictionaryWord) {
             for (int i = 0; i < lengthUserWord; i++) {
                 if (userWord[i] == myDictionary[i]) {
-                    similarLetters++;
+                    sameLetters++;
                 } else {
-                    similarLetters = 0;
+                    sameLetters = 0;
                     break;
                 }
             }
         }
-        if (similarLetters == lengthUserWord) {
+
+        if (sameLetters == lengthUserWord) {
             readToFile.close();
             return true;
         }
@@ -158,8 +167,8 @@ bool findWord(char userWord[]) {
 }
 
 bool validateUserWord(char arrFromUser[], char lettersFromComputer[]) {
-    char tempUser[MAX_LINE_LENGTH+1];
-    char tempComputer[MAX_LINE_LENGTH+1];
+    char tempUser[MAX_LINE_LENGTH + 1];
+    char tempComputer[MAX_LINE_LENGTH + 1];
     int computerLength = length(lettersFromComputer);
     int userLength = length(arrFromUser);
 
@@ -172,6 +181,7 @@ bool validateUserWord(char arrFromUser[], char lettersFromComputer[]) {
     sortWord(tempUser);
     sortWord(tempComputer);
 
+    //check whether the user's word is composed of the random letters
     for (int i = 0; i < computerLength; i++) {
         for (int j = 0; j < userLength; j++) {
             if (tempUser[j] == tempComputer[i]) {
@@ -180,6 +190,7 @@ bool validateUserWord(char arrFromUser[], char lettersFromComputer[]) {
             }
         }
     }
+
     for (int i = 0; i < userLength; i++) {
         if (tempUser[i] != '1') {
             return false;
@@ -189,22 +200,27 @@ bool validateUserWord(char arrFromUser[], char lettersFromComputer[]) {
 }
 
 bool correctNewWord(char newWord[]) {
-    char dictionary[MAX_LINE_LENGTH+1];
+    char dictionary[MAX_LINE_LENGTH + 1];
     ifstream readToFile;
     readToFile.open("dictionary1.txt");
+
     if (!readToFile.is_open()) {
         cout << "cannot be opened";
         return false;
     }
+
     int lengthNewWord = length(newWord);
+
     while (readToFile.good()) {
         readToFile.getline(dictionary, MAX_LINE_LENGTH);
         int counter = 0;
+
         for (int i = 0; i < lengthNewWord; i++) {
             if (newWord[i] == dictionary[i]) {
                 counter++;
             }
         }
+
         if (counter == lengthNewWord) {
             readToFile.close();
             return true;
@@ -214,52 +230,54 @@ bool correctNewWord(char newWord[]) {
     return false;
 }
 
+//3(MAX_TRIES) options per round to request new letters
 void displayChangedLetters(int &counter, int letters, char randomLetters[]) {
     counter++;
-    cout<<endl;
-    cout << ">> "<<MAX_TRIES - counter << " letter changes left" << endl;
+    cout << endl;
+    cout << ">> " << MAX_TRIES - counter << " letter changes left" << endl;
     cout << ">> New available letters: ";
     getRandomLetters(letters, randomLetters);
     cout << randomLetters << endl;
 }
 
 int playGame(int letters, int rounds) {
-    char randomLetters[MAX_LINE_LENGTH+1];
-    char userWord[MAX_LINE_LENGTH+1];
+    char randomLetters[MAX_LINE_LENGTH + 1];
+    char userWord[MAX_LINE_LENGTH + 1];
     int sumOfPoints = 0;
     clearScreen();
+
     for (int i = 1; i <= rounds; i++) {
         int counter = 0;
         int roundPoints;
 
         cout << "<< Round " << i << "." << "Available letters: ";
         getRandomLetters(letters, randomLetters);
+
         cout << randomLetters << endl;
         cout << ">> Try with word or type 0 for new letters: ";
         cin >> userWord;
-        if (userWord[0] == '0') {
-            displayChangedLetters(counter, letters, randomLetters);
-        }
-        while (!(validateUserWord(userWord, randomLetters) && findWord(userWord))) {
-            cout<<endl;
-            cout << ">> Try again with another word or type 0 for new letters: ";
-            cin >> userWord;
+
+        while (!(validateUserWord(userWord, randomLetters) && findWord(userWord)) || userWord[0]=='0') {
+
             if (userWord[0] == '0') {
-                if (counter < MAX_TRIES && counter>0) {
+                if (counter < MAX_TRIES) {
                     displayChangedLetters(counter, letters, randomLetters);
                 } else {
                     break;
                 }
             }
+            cout << endl;
+            cout << ">> Try again with another word or type 0 for new letters: ";
+            cin >> userWord;
         }
         roundPoints = points(userWord);
         sumOfPoints += roundPoints;
 
         cin.get();
         clearScreen();
-        cout << "<< In the previous round you received: " << points(userWord) << " points"<<endl;
+        cout << "<< In the previous round you received: " << points(userWord) << " points" << endl;
         cout << "<< Your points so far are: " << sumOfPoints << endl;
-        cout<<endl;
+        cout << endl;
     }
     return sumOfPoints;
 }
@@ -272,12 +290,14 @@ void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
         points = playGame(letters, rounds);
         cout << endl;
         cout << ">> Well done! Your total points are: " << points << endl;
+        letters=DEFAULT_LETTERS;
+        rounds=DEFAULT_ROUNDS;
         pressEnter();
     }
     if (numberForOption == 2) {
         cout << "1 -> Change the number of submitted letters" << endl;
         cout << "2 -> Change the number of rounds" << endl;
-        cout<<"3 -> Return to the menu"<<endl;
+        cout << "3 -> Return to the menu" << endl;
         cin >> numberForSettings;
 
         if (numberForSettings == 1) {
@@ -286,7 +306,7 @@ void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
         } else if (numberForSettings == 2) {
             cout << ">> Enter the number of rounds: ";
             cin >> rounds;
-        }else if(numberForSettings==3){
+        } else if (numberForSettings == 3) {
             clearScreen();
             return;
         }
@@ -298,14 +318,16 @@ void enteredOptionMenu(int numberForOption, int &letters, int &rounds) {
         cout << ">> Enter a new word or type 0 to return to the menu: ";
         cin.get();
         cin.getline(newWord, MAX_LINE_LENGTH);
-        if(newWord[0]=='0'){
+
+        if (newWord[0] == '0') {
             clearScreen();
             return;
         }
-        cout<<endl;
+        cout << endl;
+
         if (correctNewWord(newWord)) {
             writeToFile << endl << newWord;
-            cout<<">> Your word is added successfully"<<endl;
+            cout << ">> Your word is added successfully" << endl;
         } else {
             cout << ">> The word doesn't exist" << endl;
         }
@@ -319,7 +341,9 @@ int main() {
     cout << "Let's start! Press Enter to open the menu.";
     cin.get();
     clearScreen();
-    int numberForOption, letters = 10, rounds = 10;
+    int numberForOption;
+    int letters = DEFAULT_LETTERS, rounds = DEFAULT_ROUNDS;
+
     do {
         menu();
         cin >> numberForOption;
