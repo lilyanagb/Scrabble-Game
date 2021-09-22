@@ -1,5 +1,5 @@
-# scrabbleGame
-scrabble
+# scrabble Game
+
 Scrabble is a word game in which you have to invent words based on those already placed in the dictionary. 
 The game consists of 10 rounds.
 In each round, 10 letters are generated.
